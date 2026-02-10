@@ -1,0 +1,37 @@
+.github/workflows/ci.yml
+  91e82a00e3173860 1-7,36-46
+  9838a7fc36a8ce4a 8-35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.1",
+  "base_commit_sha": "5b0ff160016eff8fec20a3a54c184c46433188a0",
+  "prompts": {
+    "91e82a00e3173860": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f34e0e68-9216-404f-8929-e32bb9b5d1d2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Ethan Cohen <ecohen56@gmail.com>",
+      "messages": [],
+      "total_additions": 76,
+      "total_deletions": 1,
+      "accepted_lines": 18,
+      "overriden_lines": 0
+    },
+    "9838a7fc36a8ce4a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ffd567f5-0ed3-41f4-84c2-eb91d1be43d1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Ethan Cohen <ecohen56@gmail.com>",
+      "messages": [],
+      "total_additions": 28,
+      "total_deletions": 0,
+      "accepted_lines": 28,
+      "overriden_lines": 0
+    }
+  }
+}
