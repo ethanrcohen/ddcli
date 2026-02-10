@@ -1,0 +1,23 @@
+.gitignore
+  56a371addaa8fa5d 29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.1",
+  "base_commit_sha": "2d989d84a803c8ef38f6e9c38d43fe0691947b3f",
+  "prompts": {
+    "56a371addaa8fa5d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "28a3dbe5-a74e-441c-878a-bb7d99fef825",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Ethan Cohen <ecohen56@gmail.com>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    }
+  }
+}
