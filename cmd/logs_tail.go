@@ -7,9 +7,9 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/ethan/ddcli/internal/api"
-	"github.com/ethan/ddcli/internal/config"
-	"github.com/ethan/ddcli/internal/output"
+	"github.com/ethanrcohen/ddcli/internal/api"
+	"github.com/ethanrcohen/ddcli/internal/config"
+	"github.com/ethanrcohen/ddcli/internal/output"
 	"github.com/spf13/cobra"
 )
 

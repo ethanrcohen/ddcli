@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"io"
 
-	"github.com/ethan/ddcli/internal/api"
+	"github.com/ethanrcohen/ddcli/internal/api"
 )
 
 // JSONFormatter outputs results as JSON.

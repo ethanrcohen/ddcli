@@ -6,7 +6,7 @@ import (
 	"strings"
 	"text/tabwriter"
 
-	"github.com/ethan/ddcli/internal/api"
+	"github.com/ethanrcohen/ddcli/internal/api"
 )
 
 // TableFormatter outputs results as a human-readable table.

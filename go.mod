@@ -1,4 +1,4 @@
-module github.com/ethan/ddcli
+module github.com/ethanrcohen/ddcli
 
 go 1.24
 

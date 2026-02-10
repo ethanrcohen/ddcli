@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/ethan/ddcli/internal/api"
+	"github.com/ethanrcohen/ddcli/internal/api"
 )
 
 // RawFormatter outputs just the log message field, one per line.

@@ -7,13 +7,13 @@ A Datadog CLI for AI agents and humans. Provides structured access to Datadog lo
 ### From source
 
 ```bash
-go install github.com/ethan/ddcli@latest
+go install github.com/ethanrcohen/ddcli@latest
 ```
 
 ### Build locally
 
 ```bash
-git clone https://github.com/ethan/ddcli.git
+git clone https://github.com/ethanrcohen/ddcli.git
 cd ddcli
 make build
 ./ddcli --help

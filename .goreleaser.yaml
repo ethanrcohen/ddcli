@@ -15,14 +15,6 @@ archives:
   - format: tar.gz
     name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
 
-brews:
-  - repository:
-      owner: ethan
-      name: homebrew-tap
-    name: ddcli
-    homepage: "https://github.com/ethan/ddcli"
-    description: "Datadog CLI for AI agents"
-
 checksum:
   name_template: "checksums.txt"
 

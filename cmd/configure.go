@@ -3,7 +3,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/ethan/ddcli/internal/config"
+	"github.com/ethanrcohen/ddcli/internal/config"
 	"github.com/spf13/cobra"
 )
 
