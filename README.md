@@ -1,6 +1,6 @@
 # ddcli
 
-A Datadog CLI for AI agents and humans. Provides structured access to Datadog logs from the command line with JSON, table, and raw output formats.
+A Datadog CLI for AI agents and humans. Provides structured access to Datadog logs and APM traces from the command line with JSON, table, raw, and perfetto output formats.
 
 ## Install
 
@@ -91,6 +91,21 @@ ddcli logs aggregate --status error --compute count --group-by service --from 1h
 ddcli logs tail --service payment
 ddcli logs tail --service payment --status error --output raw
 ddcli logs tail --host web-1 --interval 5s
+```
+
+### Get trace
+
+```bash
+# Fetch all spans for a trace ID
+ddcli traces get <trace_id> --from 1h
+
+# Span tree view
+ddcli traces get <trace_id> --from 1h --output table
+
+# Export Chrome Trace Event Format for visualization
+ddcli traces get <trace_id> --from 1h -o perfetto > trace.json
+npx speedscope trace.json          # opens in browser
+# or drag trace.json into https://ui.perfetto.dev
 ```
 
 ### Common flags
