@@ -3,8 +3,27 @@ name: CI
 on:
   pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened, edited]
 
 jobs:
+  pr-title-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate PR title is a conventional commit
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          pattern='^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\(.+\))?!?: .+'
+          if echo "$PR_TITLE" | grep -qE "$pattern"; then
+            echo "OK: $PR_TITLE"
+          else
+            echo "BAD: $PR_TITLE"
+            echo ""
+            echo "PR title must follow Conventional Commits: <type>[optional scope]: <description>"
+            echo "Allowed types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert"
+            exit 1
+          fi
+
   test:
     runs-on: ubuntu-latest
     steps:
