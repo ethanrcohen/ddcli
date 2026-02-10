@@ -1,0 +1,23 @@
+internal/output/formatter_test.go
+  91e82a00e3173860 151,195-449
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.1",
+  "base_commit_sha": "2b1bfe17c342bad42a99a563747f940b715ebddf",
+  "prompts": {
+    "91e82a00e3173860": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f34e0e68-9216-404f-8929-e32bb9b5d1d2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Ethan Cohen <ecohen56@gmail.com>",
+      "messages": [],
+      "total_additions": 256,
+      "total_deletions": 0,
+      "accepted_lines": 256,
+      "overriden_lines": 0
+    }
+  }
+}
