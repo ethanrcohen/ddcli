@@ -1,0 +1,27 @@
+cmd/traces_get.go
+  91e82a00e3173860 20-23,28,37
+internal/output/formatter.go
+  91e82a00e3173860 17,23,26,76-77
+internal/output/perfetto.go
+  91e82a00e3173860 1-61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.1",
+  "base_commit_sha": "38baf240099563027ed6ca78a6f6317f9b976b13",
+  "prompts": {
+    "91e82a00e3173860": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f34e0e68-9216-404f-8929-e32bb9b5d1d2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Ethan Cohen <ecohen56@gmail.com>",
+      "messages": [],
+      "total_additions": 76,
+      "total_deletions": 7,
+      "accepted_lines": 72,
+      "overriden_lines": 0
+    }
+  }
+}
