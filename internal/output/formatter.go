@@ -59,3 +59,20 @@ func NewAggregateFormatter(f Format) AggregateFormatter {
 		return &JSONFormatter{}
 	}
 }
+
+// SpansFormatter formats span search results.
+type SpansFormatter interface {
+	FormatSpans(w io.Writer, resp *api.SpansListResponse) error
+}
+
+// NewSpansFormatter returns a SpansFormatter for the given output format.
+func NewSpansFormatter(f Format) SpansFormatter {
+	switch f {
+	case FormatTable:
+		return &TableFormatter{}
+	case FormatRaw:
+		return &RawFormatter{}
+	default:
+		return &JSONFormatter{}
+	}
+}
