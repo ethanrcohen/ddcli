@@ -1,0 +1,46 @@
+cmd/root.go
+  9838a7fc36a8ce4a 7,9,12-16,33-44
+internal/version/check_test.go
+  9838a7fc36a8ce4a 1-133
+.goreleaser.yaml
+  9838a7fc36a8ce4a 7-11
+cmd/version.go
+  9838a7fc36a8ce4a 1-28
+internal/version/check.go
+  9838a7fc36a8ce4a 1-143
+cmd/update.go
+  9838a7fc36a8ce4a 1-32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.1",
+  "base_commit_sha": "7dae61fa9f1809c9c73c3c6dc29f37457f55c206",
+  "prompts": {
+    "91e82a00e3173860": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f34e0e68-9216-404f-8929-e32bb9b5d1d2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Ethan Cohen <ecohen56@gmail.com>",
+      "messages": [],
+      "total_additions": 76,
+      "total_deletions": 1,
+      "accepted_lines": 0,
+      "overriden_lines": 0
+    },
+    "9838a7fc36a8ce4a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ffd567f5-0ed3-41f4-84c2-eb91d1be43d1",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Ethan Cohen <ecohen56@gmail.com>",
+      "messages": [],
+      "total_additions": 28,
+      "total_deletions": 0,
+      "accepted_lines": 360,
+      "overriden_lines": 0
+    }
+  }
+}
