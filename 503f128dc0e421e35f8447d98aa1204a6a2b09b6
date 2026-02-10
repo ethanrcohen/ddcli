@@ -1,0 +1,35 @@
+cmd/traces_get_test.go
+  91e82a00e3173860 1-231
+internal/output/spans.go
+  91e82a00e3173860 1-130
+cmd/traces.go
+  91e82a00e3173860 1-15
+internal/output/formatter.go
+  91e82a00e3173860 62-78
+internal/api/spans_test.go
+  91e82a00e3173860 1-200
+internal/api/spans.go
+  91e82a00e3173860 1-150
+cmd/traces_get.go
+  91e82a00e3173860 1-123
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.1",
+  "base_commit_sha": "503f128dc0e421e35f8447d98aa1204a6a2b09b6",
+  "prompts": {
+    "91e82a00e3173860": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f34e0e68-9216-404f-8929-e32bb9b5d1d2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Ethan Cohen <ecohen56@gmail.com>",
+      "messages": [],
+      "total_additions": 943,
+      "total_deletions": 77,
+      "accepted_lines": 866,
+      "overriden_lines": 0
+    }
+  }
+}
