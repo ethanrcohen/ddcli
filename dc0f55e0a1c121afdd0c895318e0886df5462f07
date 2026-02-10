@@ -1,0 +1,75 @@
+main.go
+  56a371addaa8fa5d 1-7
+internal/output/raw.go
+  56a371addaa8fa5d 1-31
+cmd/logs_search_test.go
+  56a371addaa8fa5d 1-262
+cmd/logs_aggregate_test.go
+  56a371addaa8fa5d 1-159
+internal/output/formatter.go
+  56a371addaa8fa5d 1-61
+internal/output/json.go
+  56a371addaa8fa5d 1-23
+internal/timeutil/parse.go
+  56a371addaa8fa5d 1-68
+internal/api/logs.go
+  56a371addaa8fa5d 1-192
+.gitignore
+  56a371addaa8fa5d 1-28
+.goreleaser.yaml
+  56a371addaa8fa5d 1-34
+cmd/logs_query_test.go
+  56a371addaa8fa5d 1-83
+cmd/root.go
+  56a371addaa8fa5d 1-32
+internal/output/formatter_test.go
+  56a371addaa8fa5d 1-193
+internal/timeutil/parse_test.go
+  56a371addaa8fa5d 1-107
+README.md
+  56a371addaa8fa5d 1-129
+Makefile
+  56a371addaa8fa5d 1-26
+internal/config/config.go
+  56a371addaa8fa5d 1-108
+go.mod
+  56a371addaa8fa5d 1-8
+cmd/logs_search.go
+  56a371addaa8fa5d 1-148
+internal/api/client_test.go
+  56a371addaa8fa5d 1-226
+cmd/logs_tail.go
+  56a371addaa8fa5d 1-113
+cmd/configure.go
+  56a371addaa8fa5d 1-49
+cmd/logs_aggregate.go
+  56a371addaa8fa5d 1-147
+cmd/logs_query.go
+  56a371addaa8fa5d 1-44
+internal/api/client.go
+  56a371addaa8fa5d 1-96
+internal/output/table.go
+  56a371addaa8fa5d 1-89
+cmd/logs.go
+  56a371addaa8fa5d 1-21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.1",
+  "base_commit_sha": "dc0f55e0a1c121afdd0c895318e0886df5462f07",
+  "prompts": {
+    "56a371addaa8fa5d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "28a3dbe5-a74e-441c-878a-bb7d99fef825",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Ethan Cohen <ecohen56@gmail.com>",
+      "messages": [],
+      "total_additions": 2513,
+      "total_deletions": 29,
+      "accepted_lines": 2484,
+      "overriden_lines": 0
+    }
+  }
+}
