@@ -1,0 +1,34 @@
+version: 2
+
+builds:
+  - binary: ddcli
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - format: tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+
+brews:
+  - repository:
+      owner: ethan
+      name: homebrew-tap
+    name: ddcli
+    homepage: "https://github.com/ethan/ddcli"
+    description: "Datadog CLI for AI agents"
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
