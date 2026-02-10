@@ -31,6 +31,9 @@ Or set environment variables:
   export DD_APP_KEY=<key>
   export DD_SITE=datadoghq.com  # optional, defaults to datadoghq.com`,
 	PersistentPostRun: func(cmd *cobra.Command, args []string) {
+		if cmd.Name() == "version" {
+			return // version command handles its own update check
+		}
 		if buildVersion == "dev" {
 			return
 		}
