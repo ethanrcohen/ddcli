@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/ethanrcohen/ddcli/compare/v0.5.0...v0.5.1) (2026-02-10)
+
+
+### Bug Fixes
+
+* prevent version check from suggesting downgrades ([#7](https://github.com/ethanrcohen/ddcli/issues/7)) ([b40a868](https://github.com/ethanrcohen/ddcli/commit/b40a86871856a78bfe43ccd063621ac5dcc2ad91))
+
 ## [0.5.0](https://github.com/ethanrcohen/ddcli/compare/v0.4.0...v0.5.0) (2026-02-10)
 
 
