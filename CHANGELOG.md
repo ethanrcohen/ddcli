@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/ethanrcohen/ddcli/compare/v0.3.0...v0.4.0) (2026-02-10)
+
+
+### Features
+
+* add version check, version, and update commands ([#3](https://github.com/ethanrcohen/ddcli/issues/3)) ([59648c7](https://github.com/ethanrcohen/ddcli/commit/59648c7c6a362e5ef3a3d124388889069d41beaa))
+
 ## [0.3.0](https://github.com/ethanrcohen/ddcli/compare/v0.2.0...v0.3.0) (2026-02-10)
 
 

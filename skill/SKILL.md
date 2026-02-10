@@ -4,7 +4,7 @@ description: Search, aggregate, and tail Datadog logs and fetch APM traces using
 compatibility: Requires ddcli binary (curl -sSL https://raw.githubusercontent.com/ethanrcohen/ddcli/main/install.sh | sh) and DD_API_KEY + DD_APP_KEY environment variables.
 metadata:
   author: ethanrcohen
-  version: "0.3.0" # x-release-please-version
+  version: "0.4.0" # x-release-please-version
 ---
 
 # ddcli - Datadog CLI
