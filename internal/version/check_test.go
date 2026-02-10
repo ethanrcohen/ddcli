@@ -114,6 +114,44 @@ func TestCheckForUpdate_SameVersion(t *testing.T) {
 	assert.False(t, result.IsOutdated)
 }
 
+func TestCheckForUpdate_CurrentNewerThanLatest(t *testing.T) {
+	home := t.TempDir()
+	t.Setenv("HOME", home)
+
+	// GitHub returns an older version (e.g. cache or release lag)
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(githubRelease{TagName: "v0.3.0"})
+	}))
+	defer server.Close()
+
+	result := checkForUpdate("0.5.0", server.URL, server.Client())
+	require.NotNil(t, result)
+	assert.False(t, result.IsOutdated, "should not suggest downgrade from 0.5.0 to 0.3.0")
+}
+
+func TestCheckForUpdate_CurrentNewerThanLatest_CacheHit(t *testing.T) {
+	home := t.TempDir()
+	t.Setenv("HOME", home)
+
+	// Stale cached version that is older than current
+	entry := CacheEntry{
+		LatestVersion: "0.3.0",
+		CheckedAt:     time.Now(),
+	}
+	data, _ := json.Marshal(entry)
+	require.NoError(t, os.WriteFile(filepath.Join(home, cacheFileName), data, 0600))
+
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		t.Fatal("should not hit the server when cache is fresh")
+	}))
+	defer server.Close()
+
+	result := checkForUpdate("0.5.0", server.URL, server.Client())
+	require.NotNil(t, result)
+	assert.False(t, result.IsOutdated, "should not suggest downgrade from cached 0.3.0 when running 0.5.0")
+}
+
 func TestFormatNotice(t *testing.T) {
 	assert.Equal(t, "", FormatNotice(nil))
 	assert.Equal(t, "", FormatNotice(&CheckResult{IsOutdated: false}))

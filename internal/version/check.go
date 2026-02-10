@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -60,7 +61,7 @@ func checkForUpdate(currentVersion, url string, client *http.Client) *CheckResul
 			return &CheckResult{
 				CurrentVersion: current,
 				LatestVersion:  latest,
-				IsOutdated:     latest != current,
+				IsOutdated:     isNewer(latest, current),
 			}
 		}
 	}
@@ -99,7 +100,7 @@ func checkForUpdate(currentVersion, url string, client *http.Client) *CheckResul
 	return &CheckResult{
 		CurrentVersion: current,
 		LatestVersion:  latest,
-		IsOutdated:     latest != current,
+		IsOutdated:     isNewer(latest, current),
 	}
 }
 
@@ -140,4 +141,24 @@ func writeCache(entry CacheEntry) error {
 
 func stripV(s string) string {
 	return strings.TrimPrefix(s, "v")
+}
+
+// isNewer returns true if latest is a higher semver than current.
+func isNewer(latest, current string) bool {
+	lp := parseSemver(latest)
+	cp := parseSemver(current)
+	for i := 0; i < 3; i++ {
+		if lp[i] != cp[i] {
+			return lp[i] > cp[i]
+		}
+	}
+	return false
+}
+
+func parseSemver(v string) [3]int {
+	var parts [3]int
+	for i, s := range strings.SplitN(stripV(v), ".", 3) {
+		parts[i], _ = strconv.Atoi(s)
+	}
+	return parts
 }
