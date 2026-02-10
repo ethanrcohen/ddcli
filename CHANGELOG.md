@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/ethanrcohen/ddcli/compare/v0.4.0...v0.5.0) (2026-02-10)
+
+
+### Features
+
+* add Homebrew tap distribution via goreleaser ([#5](https://github.com/ethanrcohen/ddcli/issues/5)) ([a6756f8](https://github.com/ethanrcohen/ddcli/commit/a6756f83fb71685e326bbd07810e674e407cc783))
+
 ## [0.4.0](https://github.com/ethanrcohen/ddcli/compare/v0.3.0...v0.4.0) (2026-02-10)
 
 
