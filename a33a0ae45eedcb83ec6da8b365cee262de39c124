@@ -1,0 +1,23 @@
+skill/SKILL.md
+  56a371addaa8fa5d 1-170
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.1",
+  "base_commit_sha": "a33a0ae45eedcb83ec6da8b365cee262de39c124",
+  "prompts": {
+    "56a371addaa8fa5d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "28a3dbe5-a74e-441c-878a-bb7d99fef825",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Ethan Cohen <ecohen56@gmail.com>",
+      "messages": [],
+      "total_additions": 170,
+      "total_deletions": 0,
+      "accepted_lines": 170,
+      "overriden_lines": 0
+    }
+  }
+}
