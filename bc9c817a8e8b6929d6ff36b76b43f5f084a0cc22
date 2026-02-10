@@ -1,0 +1,36 @@
+internal/output/perfetto.go
+  91e82a00e3173860 1-80
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.1",
+  "base_commit_sha": "bc9c817a8e8b6929d6ff36b76b43f5f084a0cc22",
+  "prompts": {
+    "56a371addaa8fa5d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "28a3dbe5-a74e-441c-878a-bb7d99fef825",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Ethan Cohen <ecohen56@gmail.com>",
+      "messages": [],
+      "total_additions": 174,
+      "total_deletions": 0,
+      "accepted_lines": 0,
+      "overriden_lines": 0
+    },
+    "91e82a00e3173860": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f34e0e68-9216-404f-8929-e32bb9b5d1d2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Ethan Cohen <ecohen56@gmail.com>",
+      "messages": [],
+      "total_additions": 110,
+      "total_deletions": 22,
+      "accepted_lines": 80,
+      "overriden_lines": 0
+    }
+  }
+}
