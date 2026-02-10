@@ -1,13 +1,13 @@
 ---
 name: ddcli
-description: Search, aggregate, and tail Datadog logs using the ddcli CLI. Use when debugging production issues, investigating errors, triaging incidents, checking service health, or when the user mentions Datadog logs, log search, or error investigation. Triggers on requests involving log analysis, service debugging, error counts, or production monitoring.
+description: Search, aggregate, and tail Datadog logs and fetch APM traces using the ddcli CLI. Use when debugging production issues, investigating errors, triaging incidents, checking service health, inspecting traces, or when the user mentions Datadog logs, traces, log search, or error investigation. Triggers on requests involving log analysis, trace inspection, service debugging, error counts, or production monitoring.
 compatibility: Requires ddcli binary (curl -sSL https://raw.githubusercontent.com/ethanrcohen/ddcli/main/install.sh | sh) and DD_API_KEY + DD_APP_KEY environment variables.
 metadata:
   author: ethanrcohen
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
-# ddcli - Datadog Log Search CLI
+# ddcli - Datadog CLI
 
 **Install:** `curl -sSL https://raw.githubusercontent.com/ethanrcohen/ddcli/main/install.sh | sh`
 
@@ -20,6 +20,7 @@ metadata:
 | Find errors in a service | [Search Logs](#search-logs) |
 | Count errors / compute metrics | [Aggregate Logs](#aggregate-logs) |
 | Watch logs in real time | [Tail Logs](#tail-logs) |
+| Inspect a trace's spans | [Get Trace](#get-trace) |
 
 ---
 
@@ -121,6 +122,41 @@ ddcli logs tail --host web-1 --interval 5s
 
 ---
 
+## Get Trace
+
+Fetch all spans for a trace ID. Exhaustively paginates to retrieve the complete trace.
+
+```bash
+# Get all spans for a trace (JSON)
+ddcli traces get <trace_id> --from 1h
+
+# Human-readable span tree
+ddcli traces get <trace_id> --from 1h --output table
+
+# Export for visualization in Perfetto / speedscope
+ddcli traces get <trace_id> --from 1h -o perfetto > trace.json
+npx speedscope trace.json
+```
+
+### Trace Output Formats
+
+| Format | Flag | Use when |
+|--------|------|----------|
+| JSON | `--output json` (default) | Piping to `jq`, programmatic analysis |
+| Table | `--output table` | Span tree with service, resource, duration |
+| Raw | `--output raw` | One span per line (compact JSON) |
+| Perfetto | `--output perfetto` | Chrome Trace Event Format for visualization |
+
+### Trace Flags
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--from` | | Start time: relative (15m, 1h, 24h, 7d) or ISO 8601 |
+| `--to` | | End time (default: now) |
+| `--output` | `-o` | json, table, raw, or perfetto |
+
+---
+
 ## Datadog Query Syntax
 
 The `--service`, `--env`, `--host`, and `--status` flags are shortcuts that prepend to the query. You can also use raw Datadog query syntax directly:
@@ -153,6 +189,12 @@ ddcli logs aggregate --service payment --status error --compute count --group-by
 
 # 5. Tail to watch if it's ongoing
 ddcli logs tail --service payment --status error
+
+# 6. Inspect a specific trace
+ddcli traces get <trace_id> --from 1h --output table
+
+# 7. Visualize a trace
+ddcli traces get <trace_id> --from 1h -o perfetto > trace.json && npx speedscope trace.json
 ```
 
 ## Time Ranges
