@@ -1,0 +1,27 @@
+install.sh
+  56a371addaa8fa5d 1-44
+README.md
+  56a371addaa8fa5d 7,10,13,15,17-19,22
+skill/SKILL.md
+  56a371addaa8fa5d 4,12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.1",
+  "base_commit_sha": "b8e091ed6439473048dac2a0910c635c12d2702f",
+  "prompts": {
+    "56a371addaa8fa5d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "28a3dbe5-a74e-441c-878a-bb7d99fef825",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Ethan Cohen <ecohen56@gmail.com>",
+      "messages": [],
+      "total_additions": 56,
+      "total_deletions": 9,
+      "accepted_lines": 56,
+      "overriden_lines": 0
+    }
+  }
+}
