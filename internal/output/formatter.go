@@ -11,18 +11,19 @@ import (
 type Format string
 
 const (
-	FormatJSON  Format = "json"
-	FormatTable Format = "table"
-	FormatRaw   Format = "raw"
+	FormatJSON     Format = "json"
+	FormatTable    Format = "table"
+	FormatRaw      Format = "raw"
+	FormatPerfetto Format = "perfetto"
 )
 
 // ParseFormat parses a string into a Format, returning an error for unknown formats.
 func ParseFormat(s string) (Format, error) {
 	switch Format(s) {
-	case FormatJSON, FormatTable, FormatRaw:
+	case FormatJSON, FormatTable, FormatRaw, FormatPerfetto:
 		return Format(s), nil
 	default:
-		return "", fmt.Errorf("unknown output format %q (use json, table, or raw)", s)
+		return "", fmt.Errorf("unknown output format %q (use json, table, raw, or perfetto)", s)
 	}
 }
 
@@ -72,6 +73,8 @@ func NewSpansFormatter(f Format) SpansFormatter {
 		return &TableFormatter{}
 	case FormatRaw:
 		return &RawFormatter{}
+	case FormatPerfetto:
+		return &PerfettoFormatter{}
 	default:
 		return &JSONFormatter{}
 	}

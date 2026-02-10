@@ -17,10 +17,15 @@ var tracesGetCmd = &cobra.Command{
 	Short: "Get all spans for a trace",
 	Long: `Fetch all spans belonging to a specific trace ID.
 
+Use --output perfetto to export Chrome Trace Event Format for visualization:
+  ddcli traces get <trace_id> -o perfetto > trace.json
+  # then open https://ui.perfetto.dev and drag in trace.json
+
 Examples:
   ddcli traces get abc123def456
   ddcli traces get abc123def456 --from 1h
-  ddcli traces get abc123def456 --from 1h --output table`,
+  ddcli traces get abc123def456 --from 1h --output table
+  ddcli traces get abc123def456 -o perfetto > trace.json`,
 	Args: cobra.ExactArgs(1),
 	RunE: runTracesGet,
 }
@@ -29,7 +34,7 @@ func init() {
 	tracesCmd.AddCommand(tracesGetCmd)
 	tracesGetCmd.Flags().String("from", "15m", "Start time (relative: 15m, 1h, 24h, 7d or ISO 8601 timestamp)")
 	tracesGetCmd.Flags().String("to", "now", "End time (relative or ISO 8601 timestamp)")
-	tracesGetCmd.Flags().StringP("output", "o", "json", "Output format: json, table, or raw")
+	tracesGetCmd.Flags().StringP("output", "o", "json", "Output format: json, table, raw, or perfetto")
 }
 
 type tracesGetDeps struct {
