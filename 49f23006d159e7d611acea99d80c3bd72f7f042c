@@ -1,0 +1,27 @@
+cmd/root.go
+  44cc11798c4989eb 34-36
+internal/version/check.go
+  44cc11798c4989eb 9,64,103,145-164
+internal/version/check_test.go
+  44cc11798c4989eb 117-154
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.1",
+  "base_commit_sha": "49f23006d159e7d611acea99d80c3bd72f7f042c",
+  "prompts": {
+    "44cc11798c4989eb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8e066f91-c08d-49a8-9d86-de2ec321fc98",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Ethan Cohen <ecohen56@gmail.com>",
+      "messages": [],
+      "total_additions": 64,
+      "total_deletions": 2,
+      "accepted_lines": 64,
+      "overriden_lines": 0
+    }
+  }
+}
