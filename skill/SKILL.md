@@ -1,7 +1,7 @@
 ---
 name: ddcli
 description: Search, aggregate, and tail Datadog logs using the ddcli CLI. Use when debugging production issues, investigating errors, triaging incidents, checking service health, or when the user mentions Datadog logs, log search, or error investigation. Triggers on requests involving log analysis, service debugging, error counts, or production monitoring.
-compatibility: Requires ddcli binary (go install github.com/ethanrcohen/ddcli@latest) and DD_API_KEY + DD_APP_KEY environment variables.
+compatibility: Requires ddcli binary (curl -sSL https://raw.githubusercontent.com/ethanrcohen/ddcli/main/install.sh | sh) and DD_API_KEY + DD_APP_KEY environment variables.
 metadata:
   author: ethanrcohen
   version: "0.1.0"
@@ -9,7 +9,7 @@ metadata:
 
 # ddcli - Datadog Log Search CLI
 
-**Install:** `go install github.com/ethanrcohen/ddcli@latest`
+**Install:** `curl -sSL https://raw.githubusercontent.com/ethanrcohen/ddcli/main/install.sh | sh`
 
 **Requires:** `DD_API_KEY` and `DD_APP_KEY` environment variables.
 

@@ -4,19 +4,22 @@ A Datadog CLI for AI agents and humans. Provides structured access to Datadog lo
 
 ## Install
 
-### From source
+### Quick install (recommended)
+
+```bash
+curl -sSL https://raw.githubusercontent.com/ethanrcohen/ddcli/main/install.sh | sh
+```
+
+This detects your OS/architecture, downloads the latest binary, and installs to `/usr/local/bin`.
+
+### Download binary manually
+
+Grab the latest release from [GitHub Releases](https://github.com/ethanrcohen/ddcli/releases/latest).
+
+### From source (requires Go)
 
 ```bash
 go install github.com/ethanrcohen/ddcli@latest
-```
-
-### Build locally
-
-```bash
-git clone https://github.com/ethanrcohen/ddcli.git
-cd ddcli
-make build
-./ddcli --help
 ```
 
 ## Configuration
