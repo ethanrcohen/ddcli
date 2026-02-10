@@ -4,7 +4,16 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/ethanrcohen/ddcli/internal/version"
 	"github.com/spf13/cobra"
+	"golang.org/x/term"
+)
+
+var (
+	// Set via ldflags at build time by goreleaser.
+	buildVersion = "dev"
+	commit       = "none"
+	date         = "unknown"
 )
 
 var rootCmd = &cobra.Command{
@@ -21,6 +30,18 @@ Or set environment variables:
   export DD_API_KEY=<key>
   export DD_APP_KEY=<key>
   export DD_SITE=datadoghq.com  # optional, defaults to datadoghq.com`,
+	PersistentPostRun: func(cmd *cobra.Command, args []string) {
+		if buildVersion == "dev" {
+			return
+		}
+		if !term.IsTerminal(int(os.Stdout.Fd())) {
+			return
+		}
+		result := version.CheckForUpdate(buildVersion)
+		if notice := version.FormatNotice(result); notice != "" {
+			fmt.Fprintln(os.Stderr, notice)
+		}
+	},
 }
 
 // Execute runs the root command.
