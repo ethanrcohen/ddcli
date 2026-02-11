@@ -1,17 +1,15 @@
 ---
-name: ddcli
-description: Search, aggregate, and tail Datadog logs and fetch APM traces using the ddcli CLI. Use when debugging production issues, investigating errors, triaging incidents, checking service health, inspecting traces, or when the user mentions Datadog logs, traces, log search, or error investigation. Triggers on requests involving log analysis, trace inspection, service debugging, error counts, or production monitoring.
-compatibility: Requires ddcli binary (curl -sSL https://raw.githubusercontent.com/ethanrcohen/ddcli/main/install.sh | sh) and DD_API_KEY + DD_APP_KEY environment variables.
+name: datadog-observability
+description: Search, aggregate, and analyze Datadog logs, metrics, and APM data using pup (Datadog's official CLI). Use when debugging production issues, investigating errors, triaging incidents, checking service health, querying metrics, or when the user mentions Datadog, logs, metrics, APM, or error investigation. Triggers on requests involving log analysis, metric queries, service debugging, error counts, or production monitoring.
+compatibility: Requires pup CLI (brew install datadog/pack/pup) authenticated via `pup auth login` (OAuth2, preferred) or DD_API_KEY + DD_APP_KEY environment variables.
 metadata:
   author: ethanrcohen
-  version: "0.5.0" # x-release-please-version
+  version: "1.0.0"
 ---
 
-# ddcli - Datadog CLI
+# Datadog Observability Skill (via pup)
 
-**Install:** `curl -sSL https://raw.githubusercontent.com/ethanrcohen/ddcli/main/install.sh | sh`
-
-**Requires:** `DD_API_KEY` and `DD_APP_KEY` environment variables.
+**Requires:** `pup` CLI, authenticated via `pup auth login` or `DD_API_KEY` + `DD_APP_KEY` env vars.
 
 ## Choose Your Workflow
 
@@ -19,147 +17,161 @@ metadata:
 |------|---------|
 | Find errors in a service | [Search Logs](#search-logs) |
 | Count errors / compute metrics | [Aggregate Logs](#aggregate-logs) |
-| Watch logs in real time | [Tail Logs](#tail-logs) |
-| Inspect a trace's spans | [Get Trace](#get-trace) |
+| Query time-series metrics | [Query Metrics](#query-metrics) |
+| List APM services + perf stats | [APM Services](#apm-services) |
+| View service dependencies | [APM Dependencies](#apm-dependencies) |
 
 ---
 
 ## Search Logs
 
-The primary command. Returns log entries matching a query.
+Returns log entries matching a Datadog query.
 
 ```bash
 # Errors in a service in the last hour
-ddcli logs search --service payment --status error --from 1h
+pup logs search --query="service:payment AND status:error" --from="1h"
 
 # Filter by service + environment
-ddcli logs search --service user-service --env production --from 15m
+pup logs search --query="service:user-service AND env:production" --from="15m"
 
-# Combine flags with Datadog query syntax for advanced filters
-ddcli logs search --service payment --env prod "@duration:>5s" --from 1h
-
-# Absolute time range
-ddcli logs search -s payment --from "2024-01-01T00:00:00Z" --to "2024-01-02T00:00:00Z"
+# Advanced attribute filters
+pup logs search --query="service:payment AND @duration:>5s" --from="1h"
 
 # Control result count
-ddcli logs search -s payment --status error --from 24h --limit 200
-```
+pup logs search --query="service:payment AND status:error" --from="24h" --limit=200
 
-### Output Formats
-
-| Format | Flag | Use when |
-|--------|------|----------|
-| JSON | `--output json` (default) | Piping to `jq`, programmatic analysis |
-| Table | `--output table` | Human-readable overview |
-| Raw | `--output raw` | Just log messages, one per line |
-
-```bash
-# Structured JSON (default) - pipe to jq for field selection
-ddcli logs search -s payment --from 1h | jq '.data[].attributes.message'
-
-# Human-readable table
-ddcli logs search -s payment --from 1h --output table
-
-# Just messages
-ddcli logs search -s payment --from 1h --output raw
+# Sort oldest first
+pup logs search --query="status:error" --from="1h" --sort="asc"
 ```
 
 ### Search Flags
 
-| Flag | Short | Description |
-|------|-------|-------------|
-| `--service` | `-s` | Filter by service name |
-| `--env` | `-e` | Filter by environment (prod, staging) |
-| `--host` | | Filter by host |
-| `--status` | | Filter by log status (error, warn, info, debug) |
-| `--from` | | Start time: relative (15m, 1h, 24h, 7d) or ISO 8601 |
-| `--to` | | End time (default: now) |
-| `--limit` | | Max results (default: 50, max: 1000) |
-| `--sort` | | `-timestamp` (newest first, default) or `timestamp` |
-| `--output` | `-o` | json, table, or raw |
+| Flag | Description |
+|------|-------------|
+| `--query` | Datadog query string (required) |
+| `--from` | Start time: relative (`1h`, `30m`, `7d`) or Unix ms (required) |
+| `--to` | End time (default: `now`) |
+| `--limit` | Max results (default: 50, max: 1000) |
+| `--sort` | `asc` or `desc` (default: desc) |
+| `--index` | Comma-separated log indexes |
+| `--output` / `-o` | `json` (default), `table`, `yaml` |
 
 ---
 
 ## Aggregate Logs
 
-Compute metrics from logs — counts, averages, etc. Useful for triage.
+Compute metrics from logs -- counts, averages, percentiles. Useful for triage.
 
 ```bash
 # How many errors per service in the last 24h?
-ddcli logs aggregate --status error --compute count --group-by service --from 24h
+pup logs aggregate --query="status:error" --from="24h" --compute="count" --group-by="service"
 
 # Average request duration by service
-ddcli logs aggregate --compute "avg:@duration" --group-by service --from 1h
+pup logs aggregate --query="*" --from="1h" --compute="avg(@duration)" --group-by="service"
 
-# Error count by status for one service
-ddcli logs aggregate --service payment --compute count --group-by status --from 6h
+# 99th percentile latency
+pup logs aggregate --query="service:api" --from="2h" --compute="percentile(@duration, 99)"
 
-# Table output for readability
-ddcli logs aggregate --status error --compute count --group-by service --from 1h -o table
+# Error count by HTTP status code
+pup logs aggregate --query="status:error" --from="1d" --compute="count" --group-by="@http.status_code"
 ```
 
 ### Compute Options
 
 | Compute | Example | Description |
 |---------|---------|-------------|
-| `count` | `--compute count` | Count matching logs |
-| `avg:<metric>` | `--compute avg:@duration` | Average of a numeric attribute |
-| `sum:<metric>` | `--compute sum:@bytes` | Sum of a numeric attribute |
-| `min:<metric>` | `--compute min:@latency` | Minimum value |
-| `max:<metric>` | `--compute max:@latency` | Maximum value |
+| `count` | `--compute="count"` | Count matching logs |
+| `avg(metric)` | `--compute="avg(@duration)"` | Average of a numeric attribute |
+| `sum(metric)` | `--compute="sum(@bytes)"` | Sum |
+| `min(metric)` | `--compute="min(@latency)"` | Minimum |
+| `max(metric)` | `--compute="max(@latency)"` | Maximum |
+| `cardinality(field)` | `--compute="cardinality(@user.id)"` | Unique values |
+| `percentile(metric, N)` | `--compute="percentile(@duration, 99)"` | Percentile |
 
 ---
 
-## Tail Logs
+## Query Metrics
 
-Stream logs in real time. Polls every 2 seconds by default.
+Query time-series metrics data.
 
 ```bash
-ddcli logs tail --service payment
-ddcli logs tail --service payment --status error --output raw
-ddcli logs tail --host web-1 --interval 5s
+# CPU usage across all hosts in the last hour
+pup metrics query --query="avg:system.cpu.user{*}" --from="1h"
+
+# Memory for a specific service in production
+pup metrics query --query="avg:system.mem.used{service:web,env:prod}" --from="4h"
+
+# Search for available metrics
+pup metrics list --filter="system.cpu.*"
+
+# Get metadata for a specific metric
+pup metrics get system.cpu.user
 ```
+
+### Metrics Flags
+
+| Flag | Description |
+|------|-------------|
+| `--query` | Datadog metrics query (required) |
+| `--from` | Start time: relative (`1h`, `30m`, `7d`) or Unix ms (required) |
+| `--to` | End time (default: now) |
+| `--output` / `-o` | `json` (default), `table`, `yaml` |
 
 ---
 
-## Get Trace
+## APM Services
 
-Fetch all spans for a trace ID. Exhaustively paginates to retrieve the complete trace.
+List services and their performance statistics. Note: APM commands use **Unix timestamps** (not relative time).
 
 ```bash
-# Get all spans for a trace (JSON)
-ddcli traces get <trace_id> --from 1h
+# List all APM services
+pup apm services list
 
-# Human-readable span tree
-ddcli traces get <trace_id> --from 1h --output table
+# Service performance stats (last hour)
+pup apm services stats --start=$(date -v-1H +%s) --end=$(date +%s)
 
-# Export for visualization in Perfetto / speedscope
-ddcli traces get <trace_id> --from 1h -o perfetto > trace.json
-npx speedscope trace.json
+# Filter by environment
+pup apm services stats --start=$(date -v-1H +%s) --end=$(date +%s) --env=prod
+
+# List operations for a service
+pup apm services operations web-server --start=$(date -v-1H +%s) --end=$(date +%s)
+
+# List resources (endpoints) for a service operation
+pup apm services resources web-server --operation="GET /api/users" --from=$(date -v-1H +%s) --to=$(date +%s)
 ```
 
-### Trace Output Formats
+### APM Flags
 
-| Format | Flag | Use when |
-|--------|------|----------|
-| JSON | `--output json` (default) | Piping to `jq`, programmatic analysis |
-| Table | `--output table` | Span tree with service, resource, duration |
-| Raw | `--output raw` | One span per line (compact JSON) |
-| Perfetto | `--output perfetto` | Chrome Trace Event Format for visualization |
+| Flag | Description |
+|------|-------------|
+| `--start` | Start time as Unix timestamp (required for stats/operations) |
+| `--end` | End time as Unix timestamp (required for stats/operations) |
+| `--env` | Filter by environment |
+| `--primary-tag` | Filter by primary tag (`group:value`) |
+| `--output` / `-o` | `json` (default), `table`, `yaml` |
 
-### Trace Flags
+---
 
-| Flag | Short | Description |
-|------|-------|-------------|
-| `--from` | | Start time: relative (15m, 1h, 24h, 7d) or ISO 8601 |
-| `--to` | | End time (default: now) |
-| `--output` | `-o` | json, table, raw, or perfetto |
+## APM Dependencies
+
+View service call relationships based on trace data.
+
+```bash
+# All service dependencies in production
+pup apm dependencies list --env=prod --start=$(date -v-1H +%s) --end=$(date +%s)
+
+# Dependencies for a specific service
+pup apm dependencies list web-server --env=prod --start=$(date -v-1H +%s) --end=$(date +%s)
+
+# Service flow map with performance metrics
+pup apm flow-map --query="env:prod" --from=$(date -v-1H +%s) --to=$(date +%s)
+```
 
 ---
 
 ## Datadog Query Syntax
 
-The `--service`, `--env`, `--host`, and `--status` flags are shortcuts that prepend to the query. You can also use raw Datadog query syntax directly:
+All query filters use Datadog's standard search syntax:
 
 ```
 service:my-service              Filter by service
@@ -170,43 +182,71 @@ env:production                  Filter by environment
 "exact phrase"                  Exact match
 service:web AND status:error    Boolean operators (AND, OR, NOT)
 service:web-*                   Wildcards
+-status:info                    Negation
 ```
+
+---
+
+## Output Formats
+
+All commands support `--output` / `-o`:
+
+| Format | Flag | Use when |
+|--------|------|----------|
+| JSON | `--output json` (default) | Piping to `jq`, programmatic analysis |
+| Table | `--output table` | Human-readable overview |
+| YAML | `--output yaml` | Configuration-style output |
+
+```bash
+# Pipe JSON to jq for field selection
+pup logs search --query="status:error" --from="1h" | jq '.data[].attributes.message'
+
+# Human-readable table
+pup logs search --query="status:error" --from="1h" --output table
+```
+
+---
 
 ## Common Investigation Patterns
 
 ```bash
 # 1. Start broad: what services have errors?
-ddcli logs aggregate --status error --compute count --group-by service --from 1h -o table
+pup logs aggregate --query="status:error" --from="1h" --compute="count" --group-by="service"
 
 # 2. Drill into the top offender
-ddcli logs search --service payment --status error --from 1h --output table
+pup logs search --query="service:payment AND status:error" --from="1h" --output table
 
 # 3. Get full JSON details for a specific timeframe
-ddcli logs search --service payment --status error --from 30m --limit 10
+pup logs search --query="service:payment AND status:error" --from="30m" --limit=10
 
 # 4. Check if it's environment-specific
-ddcli logs aggregate --service payment --status error --compute count --group-by env --from 1h
+pup logs aggregate --query="service:payment AND status:error" --from="1h" --compute="count" --group-by="env"
 
-# 5. Tail to watch if it's ongoing
-ddcli logs tail --service payment --status error
+# 5. Check APM service health
+pup apm services stats --start=$(date -v-1H +%s) --end=$(date +%s) --env=prod
 
-# 6. Inspect a specific trace
-ddcli traces get <trace_id> --from 1h --output table
+# 6. View service dependencies
+pup apm dependencies list payment --env=prod --start=$(date -v-1H +%s) --end=$(date +%s)
 
-# 7. Visualize a trace
-ddcli traces get <trace_id> --from 1h -o perfetto > trace.json && npx speedscope trace.json
+# 7. Check a specific metric
+pup metrics query --query="avg:trace.servlet.request.duration{service:payment}" --from="1h"
 ```
 
 ## Time Ranges
 
-`--from` and `--to` accept relative durations or absolute timestamps:
+**Logs & Metrics** accept relative durations:
 
 | Input | Meaning |
 |-------|---------|
-| `15m` | 15 minutes ago |
 | `1h` | 1 hour ago |
-| `24h` | 24 hours ago |
+| `30m` | 30 minutes ago |
 | `7d` | 7 days ago |
-| `2w` | 2 weeks ago |
-| `2024-01-01T00:00:00Z` | Absolute ISO 8601 |
+| `1w` | 1 week ago |
 | `now` | Current time (default for --to) |
+
+**APM commands** require Unix timestamps. Use `date` to compute them:
+
+| Shell | 1 hour ago | Now |
+|-------|-----------|-----|
+| macOS | `$(date -v-1H +%s)` | `$(date +%s)` |
+| Linux | `$(date -d '1 hour ago' +%s)` | `$(date +%s)` |
